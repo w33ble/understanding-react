@@ -1,0 +1,32 @@
+---
+title: "some title"
+description: "some description"
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+/* js code */
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+  var HelloMessage = React.createClass({displayName: 'HelloMessage',
+    render: function() {
+      return React.DOM.div(null, "Hello ", this.props.name);
+    }
+  });
+  React.renderComponent(HelloMessage({ name:"Joe" }), document.querySelector('#output'));
+</script>
+</div>

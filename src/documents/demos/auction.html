@@ -4,4 +4,185 @@ description: "Auction component, which uses the timer component"
 order: 40
 ---
 
-<h1>Auction</h1>
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var CountdownTimer = React.createClass({
+  getInitialState: function() {
+    return {
+      secondsRemaining: this.props.secondsRemaining
+    };
+  },
+  tick: function() {
+    this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+    if (!this.state.secondsRemaining) {
+      clearInterval(this.interval);
+    }
+  },
+  componentDidMount: function() {
+    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    if (this.state.secondsRemaining) {
+      return (
+        <div>
+          <div>Seconds Remaining: {this.state.secondsRemaining}</div>
+          <div><img src="/img/place-bid.jpg" alt="Place Bid" /></div>
+        </div>
+      );
+    } else {
+      return (
+        <div>The auction has ended</div>
+      );
+    }
+  }
+});
+
+var AuctionListing = React.createClass({
+  render: function() {
+    return (
+      <div className="auction-listing">
+        <div className="image">
+          <img src={this.props.image} alt="iPhone 5S" />
+        </div>
+        <div className="details">
+          <h3 className='title'>{this.props.title}</h3>
+          <p className='description'>{this.props.description}</p>
+          <p className='countdown'><CountdownTimer secondsRemaining="10" /></p>
+        </div>
+      </div>
+    );
+  }
+});
+
+React.renderComponent(<AuctionListing title="Like new iPhone 5S" description="Complete, with the original box. You know you want it!" image="/img/iphone5s.jpg" />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
+  getInitialState: function() {
+    return {
+      secondsRemaining: this.props.secondsRemaining
+    };
+  },
+  tick: function() {
+    this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+    if (!this.state.secondsRemaining) {
+      clearInterval(this.interval);
+    }
+  },
+  componentDidMount: function() {
+    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    if (this.state.secondsRemaining) {
+      return (
+        React.DOM.div(null,
+          React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining),
+          React.DOM.div(null, React.DOM.img( {src:"/img/place-bid.jpg", alt:"Place Bid"} ))
+        )
+      );
+    } else {
+      return (
+        React.DOM.div(null, "The auction has ended")
+      );
+    }
+  }
+});
+
+var AuctionListing = React.createClass({displayName: 'AuctionListing',
+  render: function() {
+    return (
+      React.DOM.div( {className:"auction-listing"},
+        React.DOM.div( {className:"image"},
+          React.DOM.img( {src:this.props.image, alt:"iPhone 5S"} )
+        ),
+        React.DOM.div( {className:"details"},
+          React.DOM.h3( {className:"title"}, this.props.title),
+          React.DOM.p( {className:"description"}, this.props.description),
+          React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
+        )
+      )
+    );
+  }
+});
+
+React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+  <h2>Output</h2>
+  <div id="output"></div>
+
+  <script>
+  /** @jsx React.DOM */
+  var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
+    getInitialState: function() {
+      return {
+        secondsRemaining: this.props.secondsRemaining
+      };
+    },
+    tick: function() {
+      this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+      if (!this.state.secondsRemaining) {
+        clearInterval(this.interval);
+      }
+    },
+    componentDidMount: function() {
+      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    render: function() {
+      if (this.state.secondsRemaining) {
+        return (
+          React.DOM.div(null,
+            React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining),
+            React.DOM.div(null, React.DOM.img( {src:"/img/place-bid.jpg", alt:"Place Bid"} ))
+          )
+        );
+      } else {
+        return (
+          React.DOM.div(null, "The auction has ended")
+        );
+      }
+    }
+  });
+
+  var AuctionListing = React.createClass({displayName: 'AuctionListing',
+    render: function() {
+      return (
+        React.DOM.div( {className:"auction-listing"},
+          React.DOM.div( {className:"image"},
+            React.DOM.img( {src:this.props.image, alt:"iPhone 5S"} )
+          ),
+          React.DOM.div( {className:"details"},
+            React.DOM.h3( {className:"title"}, this.props.title),
+            React.DOM.p( {className:"description"}, this.props.description),
+            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
+          )
+        )
+      );
+    }
+  });
+
+  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
+
+  </script>
+</div>
