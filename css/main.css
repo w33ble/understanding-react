@@ -1,0 +1,31 @@
+header {
+  padding: 0 20px;
+}
+footer {
+  margin-top: 200px;
+  padding: 0 20px;
+}
+.auction-listing:before,
+.auction-listing:after {
+  content: " ";
+  display: table;
+}
+.auction-listing:after {
+  clear: both;
+}
+.auction-listing .image {
+  float: left;
+  width: 200px;
+}
+.auction-listing .image img {
+  width: 160px;
+}
+.auction-listing .details {
+  float: left;
+}
+.auction-listing .details .title {
+  margin-top: 0;
+}
+.auction-listing .details .description {
+  color: #aaa;
+}

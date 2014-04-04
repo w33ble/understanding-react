@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Click Me | Understanding React</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/docco.css">
+        <script src="/js/modernizr.js"></script>
+        <script src="/js/react.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+        <h3 class="text-muted">Click Me</h3>
+        </header>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Component that shows a click count
+          </div>
+        </div>
+
+        <div class="container">
+<h2>JSX</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-comment">/** @jsx React.DOM */</span>
+<span class="hljs-keyword">var</span> ClickMe = React.createClass({
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {clicks: <span class="hljs-number">0</span>};
+  },
+  handleClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({ clicks: <span class="hljs-keyword">this</span>.state.clicks += <span class="hljs-number">1</span> });
+  },
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"clicker"</span> <span class="hljs-attribute">onClick</span>=<span class="hljs-value">{this.handleClick}</span>&gt;</span>I've been clicked {this.state.clicks} Times<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>);
+  }
+});
+React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">ClickMe</span> /&gt;</span>, document.querySelector('#output'));
+</span></code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-keyword">var</span> ClickMe = React.createClass({
+  displayName: <span class="hljs-string">'ClickMe'</span>,
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {clicks: <span class="hljs-number">0</span>};
+  },
+  handleClick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({ clicks: <span class="hljs-keyword">this</span>.state.clicks += <span class="hljs-number">1</span> });
+  },
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (React.DOM.div({ className: <span class="hljs-string">'clicker'</span>, onClick: <span class="hljs-keyword">this</span>.handleClick }, <span class="hljs-string">"I've been clicked "</span>, <span class="hljs-keyword">this</span>.state.clicks, <span class="hljs-string">" Times"</span>));
+  }
+});
+React.renderComponent(ClickMe(), document.querySelector(<span class="hljs-string">'#output'</span>));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+  var ClickMe = React.createClass({displayName: 'ClickMe',
+    getInitialState: function() {
+      return {clicks: 0};
+    },
+    handleClick: function() {
+      this.setState({ clicks: this.state.clicks+=1 });
+    },
+    render: function() {
+      return (React.DOM.div({ className: 'clicker', onClick:this.handleClick}, "I've been clicked ", this.state.clicks, " Times"));
+    }
+  });
+  React.renderComponent(ClickMe(), document.querySelector('#output'));
+
+</script>
+</div>
+
+        <footer>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+        </footer>
+
+        <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script>
+    </body>
+</html>

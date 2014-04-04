@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Auction Listing | Understanding React</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/docco.css">
+        <script src="/js/modernizr.js"></script>
+        <script src="/js/react.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+        <h3 class="text-muted">Auction Listing</h3>
+        </header>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Auction component, which uses the timer component
+          </div>
+        </div>
+
+        <div class="container">
+<h2>JSX</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-comment">/** @jsx React.DOM */</span>
+<span class="hljs-keyword">var</span> CountdownTimer = React.createClass({
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
+    };
+  },
+  tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({secondsRemaining: <span class="hljs-keyword">this</span>.state.secondsRemaining - <span class="hljs-number">1</span>});
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+      clearInterval(<span class="hljs-keyword">this</span>.interval);
+    }
+  },
+  componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({ secondRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining });
+    <span class="hljs-keyword">this</span>.interval = setInterval(<span class="hljs-keyword">this</span>.tick, <span class="hljs-number">1000</span>);
+  },
+  componentWillUnmount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    clearInterval(<span class="hljs-keyword">this</span>.interval);
+  },
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+      <span class="hljs-keyword">return</span> (
+        <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>Seconds Remaining: {this.state.secondsRemaining}<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">"/img/place-bid.jpg"</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"Place Bid"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      );
+    } else {
+      return (
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>The auction has ended<span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      );
+    }
+  }
+});
+
+var AuctionListing = React.createClass({
+  render: function() {
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"auction-listing"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"image"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{this.props.image}</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">"iPhone 5S"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"details"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">h3</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'title'</span>&gt;</span>{this.props.title}<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'description'</span>&gt;</span>{this.props.description}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'countdown'</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">CountdownTimer</span> <span class="hljs-attribute">secondsRemaining</span>=<span class="hljs-value">"10"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    );
+  }
+});
+
+React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">AuctionListing</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"Like new iPhone 5S"</span> <span class="hljs-attribute">description</span>=<span class="hljs-value">"Complete, with the original box. You know you want it!"</span> <span class="hljs-attribute">image</span>=<span class="hljs-value">"/img/iphone5s.jpg"</span> /&gt;</span>, document.querySelector('#output'));
+</span></code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-keyword">var</span> CountdownTimer = React.createClass({displayName: <span class="hljs-string">'CountdownTimer'</span>,
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
+    };
+  },
+  tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({secondsRemaining: <span class="hljs-keyword">this</span>.state.secondsRemaining - <span class="hljs-number">1</span>});
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+      clearInterval(<span class="hljs-keyword">this</span>.interval);
+    }
+  },
+  componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({ secondRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining });
+    <span class="hljs-keyword">this</span>.interval = setInterval(<span class="hljs-keyword">this</span>.tick, <span class="hljs-number">1000</span>);
+  },
+  componentWillUnmount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    clearInterval(<span class="hljs-keyword">this</span>.interval);
+  },
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+      <span class="hljs-keyword">return</span> (
+        React.DOM.div(<span class="hljs-literal">null</span>,
+          React.DOM.div(<span class="hljs-literal">null</span>, <span class="hljs-string">"Seconds Remaining: "</span>, <span class="hljs-keyword">this</span>.state.secondsRemaining),
+          React.DOM.div(<span class="hljs-literal">null</span>, React.DOM.img( {src:<span class="hljs-string">"/img/place-bid.jpg"</span>, alt:<span class="hljs-string">"Place Bid"</span>} ))
+        )
+      );
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> (
+        React.DOM.div(<span class="hljs-literal">null</span>, <span class="hljs-string">"The auction has ended"</span>)
+      );
+    }
+  }
+});
+
+<span class="hljs-keyword">var</span> AuctionListing = React.createClass({displayName: <span class="hljs-string">'AuctionListing'</span>,
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (
+      React.DOM.div( {className:<span class="hljs-string">"auction-listing"</span>},
+        React.DOM.div( {className:<span class="hljs-string">"image"</span>},
+          React.DOM.img( {src:<span class="hljs-keyword">this</span>.props.image, alt:<span class="hljs-string">"iPhone 5S"</span>} )
+        ),
+        React.DOM.div( {className:<span class="hljs-string">"details"</span>},
+          React.DOM.h3( {className:<span class="hljs-string">"title"</span>}, <span class="hljs-keyword">this</span>.props.title),
+          React.DOM.p( {className:<span class="hljs-string">"description"</span>}, <span class="hljs-keyword">this</span>.props.description),
+          React.DOM.p( {className:<span class="hljs-string">"countdown"</span>}, CountdownTimer( {secondsRemaining:<span class="hljs-string">"10"</span>} ))
+        )
+      )
+    );
+  }
+});
+
+React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new iPhone 5S"</span>, description:<span class="hljs-string">"Complete, with the original box. You know you want it!"</span>, image:<span class="hljs-string">"/img/iphone5s.jpg"</span>} ), document.querySelector(<span class="hljs-string">'#output'</span>));
+</code></pre>
+</div>
+
+<div class="container">
+  <h2>Output</h2>
+  <div id="output"></div>
+
+  <script>
+  /** @jsx React.DOM */
+  var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
+    getInitialState: function() {
+      return {
+        secondsRemaining: this.props.secondsRemaining
+      };
+    },
+    tick: function() {
+      this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+      if (!this.state.secondsRemaining) {
+        clearInterval(this.interval);
+      }
+    },
+    componentDidMount: function() {
+      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    render: function() {
+      if (this.state.secondsRemaining) {
+        return (
+          React.DOM.div(null,
+            React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining),
+            React.DOM.div(null, React.DOM.img( {src:"/img/place-bid.jpg", alt:"Place Bid"} ))
+          )
+        );
+      } else {
+        return (
+          React.DOM.div(null, "The auction has ended")
+        );
+      }
+    }
+  });
+
+  var AuctionListing = React.createClass({displayName: 'AuctionListing',
+    render: function() {
+      return (
+        React.DOM.div( {className:"auction-listing"},
+          React.DOM.div( {className:"image"},
+            React.DOM.img( {src:this.props.image, alt:"iPhone 5S"} )
+          ),
+          React.DOM.div( {className:"details"},
+            React.DOM.h3( {className:"title"}, this.props.title),
+            React.DOM.p( {className:"description"}, this.props.description),
+            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
+          )
+        )
+      );
+    }
+  });
+
+  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
+
+  </script>
+</div>
+
+        <footer>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+        </footer>
+
+        <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script>
+    </body>
+</html>
