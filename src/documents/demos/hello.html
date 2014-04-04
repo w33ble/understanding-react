@@ -1,0 +1,44 @@
+---
+title: "Hello World"
+description: "Hello World demo pulled from React Demystified"
+order: 10
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var HelloMessage = React.createClass({
+  render: function() {
+    return <div>Hello {this.props.name}</div>;
+  }
+});
+React.renderComponent(<HelloMessage name="Joe" />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var HelloMessage = React.createClass({
+  displayName: 'HelloMessage',
+  render: function() {
+    return React.DOM.div(null, "Hello ", this.props.name);
+  }
+});
+React.renderComponent(HelloMessage({ name:"Joe" }), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+  var HelloMessage = React.createClass({displayName: 'HelloMessage',
+    render: function() {
+      return React.DOM.div(null, "Hello ", this.props.name);
+    }
+  });
+  React.renderComponent(HelloMessage({ name:"Joe" }), document.querySelector('#output'));
+</script>
+</div>

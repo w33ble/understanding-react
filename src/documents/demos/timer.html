@@ -1,0 +1,84 @@
+---
+title: "Elapsed Time"
+description: "Timer component, pulled from React Demystified"
+order: 30
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var Timer = React.createClass({
+  getInitialState: function() {
+    return {secondsElapsed: 0};
+  },
+  tick: function() {
+    this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+  },
+  componentDidMount: function() {
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    return (
+      <div>Seconds Elapsed: {this.state.secondsElapsed}</div>
+    );
+  }
+});
+
+React.renderComponent(<Timer />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var Timer = React.createClass({
+  getInitialState: function() {
+    return {secondsElapsed: 0};
+  },
+  tick: function() {
+    this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+  },
+  componentDidMount: function() {
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    return React.DOM.div(null, "Seconds Elapsed: " + this.state.secondsElapsed);
+  }
+});
+
+React.renderComponent(Timer(), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+  var Timer = React.createClass({
+    getInitialState: function() {
+      return {secondsElapsed: 0};
+    },
+    tick: function() {
+      this.setState({secondsElapsed: this.state.secondsElapsed + 1});
+    },
+    componentDidMount: function() {
+      this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    render: function() {
+      return React.DOM.div(null, "Seconds Elapsed: " + this.state.secondsElapsed + ' seconds');
+    }
+  });
+
+  React.renderComponent(Timer(), document.querySelector('#output'));
+</script>
+</div>

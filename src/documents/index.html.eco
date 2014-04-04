@@ -1,0 +1,21 @@
+---
+layout: 'default'
+---
+
+<div class="container">
+    <div class="jumbotron text-center">
+        <h1>Example React Components</h1>
+        <p>Suplimental code for <a href="https://slid.es/w33ble/understanding-react">Understanding React</a></p>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-6 col-lg-offset-3">
+            <% for demo in @getCollection('demos').sortArray(order: 1): %>
+                <h4><a href="<%= demo.url %>"><%= demo.title %></a></h4>
+                <p><%= demo.description %></p>
+            <% end %>
+        </div>
+    </div>
+
+</div>

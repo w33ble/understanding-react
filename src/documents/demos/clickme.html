@@ -1,0 +1,63 @@
+---
+title: "Click Me"
+description: "Component that shows a click count"
+order: 20
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var ClickMe = React.createClass({
+  getInitialState: function() {
+    return {clicks: 0};
+  },
+  handleClick: function() {
+    this.setState({ clicks: this.state.clicks += 1 });
+  },
+  render: function() {
+    return (<div className="clicker" onClick={this.handleClick}>I've been clicked {this.state.clicks} Times</div>);
+  }
+});
+React.renderComponent(<ClickMe />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var ClickMe = React.createClass({
+  displayName: 'ClickMe',
+  getInitialState: function() {
+    return {clicks: 0};
+  },
+  handleClick: function() {
+    this.setState({ clicks: this.state.clicks += 1 });
+  },
+  render: function() {
+    return (React.DOM.div({ className: 'clicker', onClick: this.handleClick }, "I've been clicked ", this.state.clicks, " Times"));
+  }
+});
+React.renderComponent(ClickMe(), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+  var ClickMe = React.createClass({displayName: 'ClickMe',
+    getInitialState: function() {
+      return {clicks: 0};
+    },
+    handleClick: function() {
+      this.setState({ clicks: this.state.clicks+=1 });
+    },
+    render: function() {
+      return (React.DOM.div({ className: 'clicker', onClick:this.handleClick}, "I've been clicked ", this.state.clicks, " Times"));
+    }
+  });
+  React.renderComponent(ClickMe(), document.querySelector('#output'));
+
+</script>
+</div>
