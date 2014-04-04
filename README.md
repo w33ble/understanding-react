@@ -1,4 +1,5 @@
-understanding-react
+Understanding React - Code
 ===================
 
-Code from my Understanding React talk
+Code for my [Understanding React](https://slid.es/w33ble/understanding-react) talk
+
