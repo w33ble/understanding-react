@@ -1,0 +1,43 @@
+.clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+header {
+  padding: 0 20px;
+}
+
+footer {
+  margin-top: 200px;
+  padding: 0 20px;
+}
+
+.auction-listing {
+  .clearfix();
+
+  .image {
+    float: left;
+    width: 200px;
+    img {
+      width: 160px;
+    }
+  }
+
+  .details {
+    float: left;
+
+    .title {
+      margin-top: 0;
+    }
+
+    .description {
+      color: #aaa;
+    }
+  }
+}

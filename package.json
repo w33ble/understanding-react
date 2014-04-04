@@ -19,7 +19,8 @@
   "dependencies": {
     "docpad-plugin-eco": "~2.0.3",
     "docpad": "~6.64.0",
-    "docpad-plugin-highlightjs": "~2.2.1"
+    "docpad-plugin-highlightjs": "~2.2.1",
+    "docpad-plugin-less": "~2.4.1"
   },
   "devDependencies": {
     "docpad-plugin-livereload": "~2.6.0"
