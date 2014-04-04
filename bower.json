@@ -1,0 +1,23 @@
+{
+  "name": "understanding-react",
+  "version": "0.0.0",
+  "homepage": "https://github.com/w33ble/understanding-react",
+  "authors": [
+    "Joe Fleming <joe.fleming@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1.11",
+    "react": "~0.10.0",
+    "normalize-css": "~3.0.1",
+    "modernizr": "~2.7.2"
+  }
+}
