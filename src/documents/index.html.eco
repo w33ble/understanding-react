@@ -10,10 +10,12 @@ layout: 'default'
 
 
     <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
+        <div class="demo-list col-lg-6 col-lg-offset-3">
             <% for demo in @getCollection('demos').sortArray(order: 1): %>
-                <h4><a href=".<%= demo.url %>"><%= demo.title %></a></h4>
-                <p><%= demo.description %></p>
+                <div class="item">
+                    <h4><a href=".<%= demo.url %>"><%= demo.title %></a></h4>
+                    <p><%= demo.description %></p>
+                </div>
             <% end %>
         </div>
     </div>

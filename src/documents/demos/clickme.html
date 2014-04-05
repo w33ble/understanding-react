@@ -1,7 +1,7 @@
 ---
 title: "Click Me"
 description: "Component that shows a click count"
-order: 20
+order: 30
 ---
 
 <div class="container">
@@ -40,6 +40,18 @@ var ClickMe = React.createClass({
 });
 React.renderComponent(ClickMe(), document.querySelector('#output'));
 </code></pre>
+</div>
+
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">Notes</div>
+    <div class="panel-body">
+      <ul>
+        <li>Using <kbd>onClick</kbd> to bind an event</li>
+        <li>Events are delegated to <kbd>body</kbd> - view the source</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="container">
