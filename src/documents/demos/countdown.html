@@ -1,0 +1,109 @@
+---
+title: "Countdown Timer"
+description: "Countdown timer component"
+order: 40
+---
+
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var CountdownTimer = React.createClass({
+  getInitialState: function() {
+    return {
+      secondsRemaining: this.props.secondsRemaining
+    };
+  },
+  tick: function() {
+    this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+    if (!this.state.secondsRemaining) {
+      clearInterval(this.interval);
+    }
+  },
+  componentDidMount: function() {
+    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    return (
+      <div>Seconds Remaining: {this.state.secondsRemaining}</div>
+    );
+  }
+});
+
+React.renderComponent(<CountdownTimer secondsRemaining="10" />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
+  getInitialState: function() {
+    return {
+      secondsRemaining: this.props.secondsRemaining
+    };
+  },
+  tick: function() {
+    this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+    if (!this.state.secondsRemaining) {
+      clearInterval(this.interval);
+    }
+  },
+  componentDidMount: function() {
+    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.interval = setInterval(this.tick, 1000);
+  },
+  componentWillUnmount: function() {
+    clearInterval(this.interval);
+  },
+  render: function() {
+    return (
+      React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining)
+    );
+  }
+});
+
+React.renderComponent(CountdownTimer( {secondsRemaining:"10"} ), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+  <h2>Output</h2>
+  <div id="output"></div>
+
+  <script>
+  var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
+    getInitialState: function() {
+      return {
+        secondsRemaining: this.props.secondsRemaining
+      };
+    },
+    tick: function() {
+      this.setState({secondsRemaining: this.state.secondsRemaining - 1});
+      if (!this.state.secondsRemaining) {
+        clearInterval(this.interval);
+      }
+    },
+    componentDidMount: function() {
+      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.interval = setInterval(this.tick, 1000);
+    },
+    componentWillUnmount: function() {
+      clearInterval(this.interval);
+    },
+    render: function() {
+      return (
+        React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining)
+      );
+    }
+  });
+
+  React.renderComponent(CountdownTimer( {secondsRemaining:"10"} ), document.querySelector('#output'));
+
+  </script>
+</div>
