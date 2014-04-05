@@ -12,17 +12,17 @@ order: 40
 var CountdownTimer = React.createClass({
   getInitialState: function() {
     return {
-      secondsRemaining: this.props.secondsRemaining
+      secondsRemaining: 0
     };
   },
   tick: function() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-    if (!this.state.secondsRemaining) {
+    if (this.state.secondsRemaining <= 0) {
       clearInterval(this.interval);
     }
   },
   componentDidMount: function() {
-    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.setState({ secondsRemaining: this.props.secondsRemaining });
     this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function() {
@@ -45,17 +45,17 @@ React.renderComponent(<CountdownTimer secondsRemaining="10" />, document.querySe
 var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
   getInitialState: function() {
     return {
-      secondsRemaining: this.props.secondsRemaining
+      secondsRemaining: 0
     };
   },
   tick: function() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-    if (!this.state.secondsRemaining) {
+    if (this.state.secondsRemaining <= 0) {
       clearInterval(this.interval);
     }
   },
   componentDidMount: function() {
-    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.setState({ secondsRemaining: this.props.secondsRemaining });
     this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function() {
@@ -73,6 +73,18 @@ React.renderComponent(CountdownTimer( {secondsRemaining:"10"} ), document.queryS
 </div>
 
 <div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">Notes</div>
+    <div class="panel-body">
+      <ul>
+        <li>Using a passed property to set state</li>
+        <li><kbd>getInitialState</kbd> is <strong>not</strong> the place to use passed prop</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
   <h2>Output</h2>
   <div id="output"></div>
 
@@ -80,17 +92,17 @@ React.renderComponent(CountdownTimer( {secondsRemaining:"10"} ), document.queryS
   var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
     getInitialState: function() {
       return {
-        secondsRemaining: this.props.secondsRemaining
+        secondsRemaining: 0
       };
     },
     tick: function() {
       this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-      if (!this.state.secondsRemaining) {
+      if (this.state.secondsRemaining <= 0) {
         clearInterval(this.interval);
       }
     },
     componentDidMount: function() {
-      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.setState({ secondsRemaining: this.props.secondsRemaining });
       this.interval = setInterval(this.tick, 1000);
     },
     componentWillUnmount: function() {

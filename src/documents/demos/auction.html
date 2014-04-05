@@ -17,12 +17,12 @@ var CountdownTimer = React.createClass({
   },
   tick: function() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-    if (!this.state.secondsRemaining) {
+    if (this.state.secondsRemaining <= 0) {
       clearInterval(this.interval);
     }
   },
   componentDidMount: function() {
-    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.setState({ secondsRemaining: this.props.secondsRemaining });
     this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function() {
@@ -76,12 +76,12 @@ var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
   },
   tick: function() {
     this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-    if (!this.state.secondsRemaining) {
+    if (this.state.secondsRemaining <= 0) {
       clearInterval(this.interval);
     }
   },
   componentDidMount: function() {
-    this.setState({ secondRemaining: this.props.secondsRemaining });
+    this.setState({ secondsRemaining: this.props.secondsRemaining });
     this.interval = setInterval(this.tick, 1000);
   },
   componentWillUnmount: function() {
@@ -150,12 +150,12 @@ React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"
     },
     tick: function() {
       this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-      if (!this.state.secondsRemaining) {
+      if (this.state.secondsRemaining <= 0) {
         clearInterval(this.interval);
       }
     },
     componentDidMount: function() {
-      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.setState({ secondsRemaining: this.props.secondsRemaining });
       this.interval = setInterval(this.tick, 1000);
     },
     componentWillUnmount: function() {
