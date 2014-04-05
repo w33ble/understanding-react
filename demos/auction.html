@@ -45,7 +45,7 @@
 <span class="hljs-keyword">var</span> CountdownTimer = React.createClass({
   getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      secondsRemaining: <span class="hljs-number">0</span>
+      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
     };
   },
   tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -104,7 +104,7 @@ React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Auctio
 <span class="hljs-keyword">var</span> CountdownTimer = React.createClass({displayName: <span class="hljs-string">'CountdownTimer'</span>,
   getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      secondsRemaining: <span class="hljs-number">0</span>
+      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
     };
   },
   tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -178,7 +178,7 @@ React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new
   var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
     getInitialState: function() {
       return {
-        secondsRemaining: 0
+        secondsRemaining: this.props.secondsRemaining
       };
     },
     tick: function() {
