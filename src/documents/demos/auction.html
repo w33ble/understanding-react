@@ -1,7 +1,7 @@
 ---
 title: "Auction Listing"
 description: "Auction component, which uses the timer component"
-order: 40
+order: 50
 ---
 
 
@@ -54,14 +54,14 @@ var AuctionListing = React.createClass({
         <div className="details">
           <h3 className='title'>{this.props.title}</h3>
           <p className='description'>{this.props.description}</p>
-          <p className='countdown'><CountdownTimer secondsRemaining="10" /></p>
+          <p className='countdown'><CountdownTimer secondsRemaining={this.props.remaining} /></p>
         </div>
       </div>
     );
   }
 });
 
-React.renderComponent(<AuctionListing title="Like new iPhone 5S" description="Complete, with the original box. You know you want it!" image="/img/iphone5s.jpg" />, document.querySelector('#output'));
+React.renderComponent(<AuctionListing title="Like new iPhone 5S" description="Complete, with the original box. You know you want it!" image="/img/iphone5s.jpg" secondsRemaining="10" />, document.querySelector('#output'));
 </code></pre>
 </div>
 
@@ -113,14 +113,14 @@ var AuctionListing = React.createClass({displayName: 'AuctionListing',
         React.DOM.div( {className:"details"},
           React.DOM.h3( {className:"title"}, this.props.title),
           React.DOM.p( {className:"description"}, this.props.description),
-          React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
+          React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:this.props.secondsRemaining} ))
         )
       )
     );
   }
 });
 
-React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
+React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg", secondsRemaining: 10} ), document.querySelector('#output'));
 </code></pre>
 </div>
 
@@ -175,14 +175,14 @@ React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"
           React.DOM.div( {className:"details"},
             React.DOM.h3( {className:"title"}, this.props.title),
             React.DOM.p( {className:"description"}, this.props.description),
-            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
+            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:this.props.secondsRemaining} ))
           )
         )
       );
     }
   });
 
-  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
+  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg", secondsRemaining: 10} ), document.querySelector('#output'));
 
   </script>
 </div>
