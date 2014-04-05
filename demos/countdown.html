@@ -45,17 +45,17 @@
 <span class="hljs-keyword">var</span> CountdownTimer = React.createClass({
   getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
+      secondsRemaining: <span class="hljs-number">0</span>
     };
   },
   tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">this</span>.setState({secondsRemaining: <span class="hljs-keyword">this</span>.state.secondsRemaining - <span class="hljs-number">1</span>});
-    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.secondsRemaining &lt;= <span class="hljs-number">0</span>) {
       clearInterval(<span class="hljs-keyword">this</span>.interval);
     }
   },
   componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">this</span>.setState({ secondRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining });
+    <span class="hljs-keyword">this</span>.setState({ secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining});
     <span class="hljs-keyword">this</span>.interval = setInterval(<span class="hljs-keyword">this</span>.tick, <span class="hljs-number">1000</span>);
   },
   componentWillUnmount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -78,17 +78,17 @@ React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Countd
 <span class="hljs-keyword">var</span> CountdownTimer = React.createClass({displayName: <span class="hljs-string">'CountdownTimer'</span>,
   getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">return</span> {
-      secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining
+      secondsRemaining: <span class="hljs-number">0</span>
     };
   },
   tick: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
     <span class="hljs-keyword">this</span>.setState({secondsRemaining: <span class="hljs-keyword">this</span>.state.secondsRemaining - <span class="hljs-number">1</span>});
-    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.state.secondsRemaining) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.secondsRemaining &lt;= <span class="hljs-number">0</span>) {
       clearInterval(<span class="hljs-keyword">this</span>.interval);
     }
   },
   componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">this</span>.setState({ secondRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining });
+    <span class="hljs-keyword">this</span>.setState({ secondsRemaining: <span class="hljs-keyword">this</span>.props.secondsRemaining});
     <span class="hljs-keyword">this</span>.interval = setInterval(<span class="hljs-keyword">this</span>.tick, <span class="hljs-number">1000</span>);
   },
   componentWillUnmount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -113,17 +113,17 @@ React.renderComponent(CountdownTimer( {secondsRemaining:<span class="hljs-string
   var CountdownTimer = React.createClass({displayName: 'CountdownTimer',
     getInitialState: function() {
       return {
-        secondsRemaining: this.props.secondsRemaining
+        secondsRemaining: 0
       };
     },
     tick: function() {
       this.setState({secondsRemaining: this.state.secondsRemaining - 1});
-      if (!this.state.secondsRemaining) {
+      if (this.state.secondsRemaining <= 0) {
         clearInterval(this.interval);
       }
     },
     componentDidMount: function() {
-      this.setState({ secondRemaining: this.props.secondsRemaining });
+      this.setState({ secondsRemaining: this.props.secondsRemaining});
       this.interval = setInterval(this.tick, 1000);
     },
     componentWillUnmount: function() {
