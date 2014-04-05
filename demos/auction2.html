@@ -86,14 +86,14 @@ var AuctionListing = React.createClass({
         <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"details"</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-title">h3</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'title'</span>&gt;</span>{this.props.title}<span class="hljs-tag">&lt;/<span class="hljs-title">h3</span>&gt;</span>
           <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'description'</span>&gt;</span>{this.props.description}<span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
-          <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'countdown'</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">CountdownTimer</span> <span class="hljs-attribute">secondsRemaining</span>=<span class="hljs-value">{this.props.remaining}</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">p</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">'countdown'</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">CountdownTimer</span> <span class="hljs-attribute">secondsRemaining</span>=<span class="hljs-value">"10"</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">p</span>&gt;</span>
         <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
       <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
     );
   }
 });
 
-React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">AuctionListing</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"Like new iPhone 5S"</span> <span class="hljs-attribute">description</span>=<span class="hljs-value">"Complete, with the original box. You know you want it!"</span> <span class="hljs-attribute">image</span>=<span class="hljs-value">"/img/iphone5s.jpg"</span> <span class="hljs-attribute">secondsRemaining</span>=<span class="hljs-value">"10"</span> /&gt;</span>, document.querySelector('#output'));
+React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">AuctionListing</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">"Like new iPhone 5S"</span> <span class="hljs-attribute">description</span>=<span class="hljs-value">"Complete, with the original box. You know you want it!"</span> <span class="hljs-attribute">image</span>=<span class="hljs-value">"/img/iphone5s.jpg"</span> /&gt;</span>, document.querySelector('#output'));
 </span></code></pre>
 </div>
 
@@ -145,14 +145,14 @@ React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Auctio
         React.DOM.div( {className:<span class="hljs-string">"details"</span>},
           React.DOM.h3( {className:<span class="hljs-string">"title"</span>}, <span class="hljs-keyword">this</span>.props.title),
           React.DOM.p( {className:<span class="hljs-string">"description"</span>}, <span class="hljs-keyword">this</span>.props.description),
-          React.DOM.p( {className:<span class="hljs-string">"countdown"</span>}, CountdownTimer( {secondsRemaining:<span class="hljs-keyword">this</span>.props.secondsRemaining} ))
+          React.DOM.p( {className:<span class="hljs-string">"countdown"</span>}, CountdownTimer( {secondsRemaining:<span class="hljs-string">"10"</span>} ))
         )
       )
     );
   }
 });
 
-React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new iPhone 5S"</span>, description:<span class="hljs-string">"Complete, with the original box. You know you want it!"</span>, image:<span class="hljs-string">"/img/iphone5s.jpg"</span>, secondsRemaining: <span class="hljs-number">10</span>} ), document.querySelector(<span class="hljs-string">'#output'</span>));
+React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new iPhone 5S"</span>, description:<span class="hljs-string">"Complete, with the original box. You know you want it!"</span>, image:<span class="hljs-string">"/img/iphone5s.jpg"</span>} ), document.querySelector(<span class="hljs-string">'#output'</span>));
 </code></pre>
 </div>
 
@@ -207,14 +207,14 @@ React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new
           React.DOM.div( {className:"details"},
             React.DOM.h3( {className:"title"}, this.props.title),
             React.DOM.p( {className:"description"}, this.props.description),
-            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:this.props.secondsRemaining} ))
+            React.DOM.p( {className:"countdown"}, CountdownTimer( {secondsRemaining:"10"} ))
           )
         )
       );
     }
   });
 
-  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg", secondsRemaining: 10} ), document.querySelector('#output'));
+  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg"} ), document.querySelector('#output'));
 
   </script>
 </div>
