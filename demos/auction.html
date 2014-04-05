@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="../css/docco.css">
         <script src="../js/modernizr.js"></script>
         <script src="../js/react.min.js"></script>
+        <script src="../js/md5.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -154,6 +155,18 @@ React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Auctio
 
 React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new iPhone 5S"</span>, description:<span class="hljs-string">"Complete, with the original box. You know you want it!"</span>, image:<span class="hljs-string">"/img/iphone5s.jpg"</span>, secondsRemaining: <span class="hljs-number">10</span>} ), document.querySelector(<span class="hljs-string">'#output'</span>));
 </code></pre>
+</div>
+
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">Notes</div>
+    <div class="panel-body">
+      <ul>
+        <li>Passing this.props from AuctionListing to CountdownTimer</li>
+        <li>CountdownTimer uses state, AuctionListing does not</li>
+      </ul>
+    </div>
+  </div>
 </div>
 
 <div class="container">

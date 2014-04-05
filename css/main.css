@@ -5,6 +5,10 @@ footer {
   margin-top: 200px;
   padding: 0 20px;
 }
+.demo-list .item {
+  margin-bottom: 22px;
+  border-bottom: 1px solid #eee;
+}
 .auction-listing:before,
 .auction-listing:after {
   content: " ";

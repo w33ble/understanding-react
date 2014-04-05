@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Gravitar | Understanding React</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/docco.css">
+        <script src="../js/modernizr.js"></script>
+        <script src="../js/react.min.js"></script>
+        <script src="../js/md5.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="../">Home</a></li>
+            </ul>
+        <h3 class="text-muted">Gravitar</h3>
+        </header>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Use show the Gravitar for an email, fallback to identicon
+          </div>
+        </div>
+
+        <div class="container">
+<h2>JSX</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-comment">/** @jsx React.DOM */</span>
+<span class="hljs-keyword">var</span> EmailInput = React.createClass({
+  returnInput: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.props.inputHandler(
+      <span class="hljs-keyword">this</span>.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">input</span> <span class="hljs-attribute">type</span>=<span class="hljs-value">"email"</span> <span class="hljs-attribute">ref</span>=<span class="hljs-value">"emailInput"</span> <span class="hljs-attribute">onChange</span>=<span class="hljs-value">{this.returnInput}</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    );
+  }
+});
+
+var Gravitar = React.createClass({
+  getInitialState: function() {
+    return {
+      url: ''
+    }
+  },
+
+  getDefaultProps: function(){
+    return {
+      email: '',
+      size: 50
+    };
+  },
+
+  componentWillMount: function() {
+    this.setState({ url: this.getUrl() });
+  },
+
+  getUrl: function() {
+    var url = 'http://www.gravatar.com/avatar/'+window.md5(this.props.email)+'?d=identicon&amp;s=150';
+    if (this.props.size) {
+      url += '&amp;s=' + this.props.size;
+    }
+    return url;
+  },
+
+  updateEmail: function(email) {
+    this.props.email = email;
+    this.setState({ url: this.getUrl() });
+  },
+
+  render: function() {
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">EmailInput</span> <span class="hljs-attribute">inputHandler</span>=<span class="hljs-value">{this.updateEmail}</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span> <span class="hljs-attribute">className</span>=<span class="hljs-value">"gravitar"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{this.state.url}</span> /&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    );
+  }
+});
+
+React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Gravitar</span> <span class="hljs-attribute">size</span>=<span class="hljs-value">"150"</span> /&gt;</span>, document.querySelector('#output'));
+</span></code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-keyword">var</span> EmailInput = React.createClass({displayName: <span class="hljs-string">'EmailInput'</span>,
+  returnInput: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.props.inputHandler(
+      <span class="hljs-keyword">this</span>.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (
+      React.DOM.div(<span class="hljs-literal">null</span>, React.DOM.input( {type:<span class="hljs-string">"email"</span>, ref:<span class="hljs-string">"emailInput"</span>, onChange:<span class="hljs-keyword">this</span>.returnInput} ))
+    );
+  }
+});
+
+<span class="hljs-keyword">var</span> Gravitar = React.createClass({displayName: <span class="hljs-string">'Gravitar'</span>,
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      url: <span class="hljs-string">''</span>
+    }
+  },
+
+  getDefaultProps: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
+    <span class="hljs-keyword">return</span> {
+      email: <span class="hljs-string">''</span>,
+      size: <span class="hljs-number">50</span>
+    };
+  },
+
+  componentWillMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({ url: <span class="hljs-keyword">this</span>.getUrl() });
+  },
+
+  getUrl: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> url = <span class="hljs-string">'http://www.gravatar.com/avatar/'</span>+window.md5(<span class="hljs-keyword">this</span>.props.email)+<span class="hljs-string">'?d=identicon&amp;s=150'</span>;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.size) {
+      url += <span class="hljs-string">'&amp;s='</span> + <span class="hljs-keyword">this</span>.props.size;
+    }
+    <span class="hljs-keyword">return</span> url;
+  },
+
+  updateEmail: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(email)</span> {</span>
+    <span class="hljs-keyword">this</span>.props.email = email;
+    <span class="hljs-keyword">this</span>.setState({ url: <span class="hljs-keyword">this</span>.getUrl() });
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (
+      React.DOM.div(<span class="hljs-literal">null</span>,
+        EmailInput( {inputHandler:<span class="hljs-keyword">this</span>.updateEmail} ),
+        React.DOM.div( {className:<span class="hljs-string">"gravitar"</span>}, React.DOM.img( {src:<span class="hljs-keyword">this</span>.state.url} ))
+      )
+    );
+  }
+});
+
+React.renderComponent(Gravitar( {size:<span class="hljs-string">"150"</span>} ), document.querySelector(<span class="hljs-string">'#output'</span>));
+</code></pre>
+</div>
+
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">Notes</div>
+    <div class="panel-body">
+      <ul>
+        <li>Using <kbd>this.refs</kbd> and <kbd>getDOMNode()</kbd> to get input value</li>
+        <li>Passing handler as a property to EmailInput</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+
+/** @jsx React.DOM */
+var EmailInput = React.createClass({displayName: 'EmailInput',
+  returnInput: function() {
+    this.props.inputHandler(
+      this.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null, React.DOM.input( {type:"email", ref:"emailInput", onChange:this.returnInput} ))
+    );
+  }
+});
+
+var Gravitar = React.createClass({displayName: 'Gravitar',
+  getInitialState: function() {
+    return {
+      url: ''
+    }
+  },
+
+  getDefaultProps: function(){
+    return {
+      email: '',
+      size: 50
+    };
+  },
+
+  getUrl: function() {
+    var url = 'http://www.gravatar.com/avatar/'+window.md5(this.props.email)+'?d=identicon&s=150';
+    if (this.props.size) {
+      url += '&s=' + this.props.size;
+    }
+    return url;
+  },
+
+  componentWillMount: function() {
+    this.setState({ url: this.getUrl() });
+  },
+
+  updateEmail: function(email) {
+    this.props.email = email;
+    this.setState({ url: this.getUrl() });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        EmailInput( {inputHandler:this.updateEmail} ),
+        React.DOM.div( {className:"gravitar"}, React.DOM.img( {src:this.state.url} ))
+      )
+    );
+  }
+});
+
+
+React.renderComponent(Gravitar( {size:"150"} ), document.querySelector('#output'));
+
+</script>
+</div>
+
+        <footer>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="/">Home</a></li>
+            </ul>
+        </footer>
+
+        <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script>
+    </body>
+</html>
