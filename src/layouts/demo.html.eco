@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="../css/docco.css">
         <script src="../js/modernizr.js"></script>
         <script src="../js/react.min.js"></script>
+        <script src="../js/md5.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>

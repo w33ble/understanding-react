@@ -1,0 +1,209 @@
+---
+title: "Gravitar"
+description: "Use show the Gravitar for an email, fallback to identicon"
+order: 60
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+var EmailInput = React.createClass({
+  returnInput: function() {
+    this.props.inputHandler(
+      this.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: function() {
+    return (
+      <div><input type="email" ref="emailInput" onChange={this.returnInput} /></div>
+    );
+  }
+});
+
+var Gravitar = React.createClass({
+  getInitialState: function() {
+    return {
+      url: ''
+    }
+  },
+
+  getDefaultProps: function(){
+    return {
+      email: '',
+      size: 50
+    };
+  },
+
+  componentWillMount: function() {
+    this.setState({ url: this.getUrl() });
+  },
+
+  getUrl: function() {
+    var url = 'http://www.gravatar.com/avatar/'+window.md5(this.props.email)+'?d=identicon&s=150';
+    if (this.props.size) {
+      url += '&s=' + this.props.size;
+    }
+    return url;
+  },
+
+  updateEmail: function(email) {
+    this.props.email = email;
+    this.setState({ url: this.getUrl() });
+  },
+
+  render: function() {
+    return (
+      <div>
+        <EmailInput inputHandler={this.updateEmail} />
+        <div className="gravitar"><img src={this.state.url} /></div>
+      </div>
+    );
+  }
+});
+
+React.renderComponent(<Gravitar size="150" />, document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+var EmailInput = React.createClass({displayName: 'EmailInput',
+  returnInput: function() {
+    this.props.inputHandler(
+      this.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null, React.DOM.input( {type:"email", ref:"emailInput", onChange:this.returnInput} ))
+    );
+  }
+});
+
+var Gravitar = React.createClass({displayName: 'Gravitar',
+  getInitialState: function() {
+    return {
+      url: ''
+    }
+  },
+
+  getDefaultProps: function(){
+    return {
+      email: '',
+      size: 50
+    };
+  },
+
+  componentWillMount: function() {
+    this.setState({ url: this.getUrl() });
+  },
+
+  getUrl: function() {
+    var url = 'http://www.gravatar.com/avatar/'+window.md5(this.props.email)+'?d=identicon&s=150';
+    if (this.props.size) {
+      url += '&s=' + this.props.size;
+    }
+    return url;
+  },
+
+  updateEmail: function(email) {
+    this.props.email = email;
+    this.setState({ url: this.getUrl() });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        EmailInput( {inputHandler:this.updateEmail} ),
+        React.DOM.div( {className:"gravitar"}, React.DOM.img( {src:this.state.url} ))
+      )
+    );
+  }
+});
+
+React.renderComponent(Gravitar( {size:"150"} ), document.querySelector('#output'));
+</code></pre>
+</div>
+
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">Notes</div>
+    <div class="panel-body">
+      <ul>
+        <li>Using <kbd>this.refs</kbd> and <kbd>getDOMNode()</kbd> to get input value</li>
+        <li>Passing handler as a property to EmailInput</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+
+/** @jsx React.DOM */
+var EmailInput = React.createClass({displayName: 'EmailInput',
+  returnInput: function() {
+    this.props.inputHandler(
+      this.refs.emailInput.getDOMNode().value
+    );
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null, React.DOM.input( {type:"email", ref:"emailInput", onChange:this.returnInput} ))
+    );
+  }
+});
+
+var Gravitar = React.createClass({displayName: 'Gravitar',
+  getInitialState: function() {
+    return {
+      url: ''
+    }
+  },
+
+  getDefaultProps: function(){
+    return {
+      email: '',
+      size: 50
+    };
+  },
+
+  getUrl: function() {
+    var url = 'http://www.gravatar.com/avatar/'+window.md5(this.props.email)+'?d=identicon&s=150';
+    if (this.props.size) {
+      url += '&s=' + this.props.size;
+    }
+    return url;
+  },
+
+  componentWillMount: function() {
+    this.setState({ url: this.getUrl() });
+  },
+
+  updateEmail: function(email) {
+    this.props.email = email;
+    this.setState({ url: this.getUrl() });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        EmailInput( {inputHandler:this.updateEmail} ),
+        React.DOM.div( {className:"gravitar"}, React.DOM.img( {src:this.state.url} ))
+      )
+    );
+  }
+});
+
+
+React.renderComponent(Gravitar( {size:"150"} ), document.querySelector('#output'));
+
+</script>
+</div>
