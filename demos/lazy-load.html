@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Lazy Loading | Understanding React</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/docco.css">
+        <script src="../js/modernizr.js"></script>
+        <script src="../js/react.min.js"></script>
+        <script src="../js/md5.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="../">Home</a></li>
+            </ul>
+        <h3 class="text-muted">Lazy Loading</h3>
+        </header>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            Example image lazy loading - Only load images when they are visible
+          </div>
+        </div>
+
+        <div class="container">
+<h2>JSX</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-comment">/** @jsx React.DOM */</span>
+
+<span class="hljs-comment">// Product list item image</span>
+<span class="hljs-keyword">var</span> ProductImage = React.createClass({
+  getDefaultProps: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      loader: <span class="hljs-string">'../img/loader.gif'</span>,
+      showImage: <span class="hljs-literal">false</span>
+    };
+  },
+
+  componentDidUpdate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prevProps)</span> {</span>
+    <span class="hljs-keyword">if</span> (! <span class="hljs-keyword">this</span>.props.showImages &amp;&amp; prevProps.viewport) {
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+      <span class="hljs-comment">// artificial delay, for demo purposes</span>
+      setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        self.updatePosition();
+      }, <span class="hljs-number">3000</span>);
+    }
+  },
+
+  updatePosition: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> el = <span class="hljs-keyword">this</span>.getDOMNode();
+    <span class="hljs-keyword">this</span>.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> img = (<span class="hljs-keyword">this</span>.props.showImage) ? <span class="hljs-keyword">this</span>.props.src : <span class="hljs-keyword">this</span>.props.loader;
+    <span class="hljs-keyword">return</span> (
+      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-title">img</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{img}</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">{this.props.alt}</span> /&gt;</span>
+    );
+  }
+});
+
+// Product list item
+var Product = React.createClass({
+  getInitialState: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  componentWillMount: function() {
+    // allow image display override
+    if (this.props.showImage) {
+      setShowImage(true);
+    }
+  },
+
+  updateImagePosition: function(top, height) {
+    // image is already displayed, no need to check anything
+    if (this.state.showImage) {
+      return;
+    }
+
+    // update showImage state if component element is in the viewport
+    var min = this.props.viewport.top;
+    var max = this.props.viewport.top + this.props.viewport.height;
+
+    if ((min <span class="hljs-tag">&lt;<span class="hljs-title">=</span> (<span class="hljs-attribute">top</span> + <span class="hljs-attribute">height</span>) &amp;&amp; <span class="hljs-attribute">top</span> &lt;= <span class="hljs-attribute">max</span>)) {
+      <span class="hljs-attribute">this.setShowImage</span>(<span class="hljs-attribute">true</span>);
+    }
+  },
+
+  <span class="hljs-attribute">setShowImage:</span> <span class="hljs-attribute">function</span>(<span class="hljs-attribute">show</span>) {
+    <span class="hljs-attribute">this.setState</span>({
+      <span class="hljs-attribute">showImage:</span> !!(<span class="hljs-attribute">show</span>)
+    });
+  },
+
+  <span class="hljs-attribute">render:</span> <span class="hljs-attribute">function</span>() {
+    <span class="hljs-attribute">return</span> (
+      &lt;<span class="hljs-attribute">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h2</span>&gt;</span>{this.props.title}<span class="hljs-tag">&lt;/<span class="hljs-title">h2</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-title">ProductImage</span> <span class="hljs-attribute">src</span>=<span class="hljs-value">{this.props.image}</span> <span class="hljs-attribute">alt</span>=<span class="hljs-value">{this.props.title}</span> <span class="hljs-attribute">viewport</span>=<span class="hljs-value">{this.props.viewport}</span> <span class="hljs-attribute">showImage</span>=<span class="hljs-value">{this.state.showImage}</span>
+            <span class="hljs-attribute">updateImagePosition</span>=<span class="hljs-value">{this.updateImagePosition}</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    );
+  }
+});
+
+// Product list
+var ProductList = React.createClass({
+  getInitialState: function() {
+    return {
+      viewport: {
+        top: 0,
+        height: 0
+      }
+    };
+  },
+
+  componentDidMount: function() {
+    window.onscroll = this.updateViewport;
+    window.onresize = this.updateViewport;
+    this.updateViewport();
+  },
+
+  updateViewport: function() {
+    // TODO: debounce this call
+    this.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: function() {
+    var self = this;
+
+    var itemViews = this.props.items.map(function(item) {
+      return <span class="hljs-tag">&lt;<span class="hljs-title">Product</span> <span class="hljs-attribute">title</span>=<span class="hljs-value">{item.title}</span> <span class="hljs-attribute">image</span>=<span class="hljs-value">{item.image}</span> <span class="hljs-attribute">viewport</span>=<span class="hljs-value">{self.state.viewport}</span> /&gt;</span>
+    });
+
+    return (
+      <span class="hljs-tag">&lt;<span class="hljs-title">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-title">h1</span>&gt;</span>Items<span class="hljs-tag">&lt;/<span class="hljs-title">h1</span>&gt;</span>
+        {itemViews}
+      <span class="hljs-tag">&lt;/<span class="hljs-title">div</span>&gt;</span>
+    );
+  }
+});
+
+var items = [
+  { title: 'Kitten 1', image: 'http://placekitten.com/301/301' },
+  { title: 'Kitten 2', image: 'http://placekitten.com/302/302' },
+  { title: 'Kitten 3', image: 'http://placekitten.com/303/303' },
+  { title: 'Kitten 4', image: 'http://placekitten.com/304/304' },
+  { title: 'Kitten 5', image: 'http://placekitten.com/305/305' },
+  { title: 'Kitten 6', image: 'http://placekitten.com/306/306' },
+  { title: 'Kitten 7', image: 'http://placekitten.com/307/307' },
+  { title: 'Kitten 8', image: 'http://placekitten.com/308/308' },
+  { title: 'Kitten 9', image: 'http://placekitten.com/309/309' },
+  { title: 'Kitten 10', image: 'http://placekitten.com/310/310' }
+];
+
+var el = document.querySelector('#output');
+React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">ProductList</span> <span class="hljs-attribute">items</span>=<span class="hljs-value">{items}</span> /&gt;</span>, el);
+</span></code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre class="highlight"><code class="hljs javascript">
+<span class="hljs-comment">// Product list item image</span>
+<span class="hljs-keyword">var</span> ProductImage = React.createClass({displayName: <span class="hljs-string">'ProductImage'</span>,
+  getDefaultProps: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      loader: <span class="hljs-string">'../img/loader.gif'</span>,
+      showImage: <span class="hljs-literal">false</span>
+    };
+  },
+
+  componentDidUpdate: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(prevProps)</span> {</span>
+    <span class="hljs-keyword">if</span> (! <span class="hljs-keyword">this</span>.props.showImages &amp;&amp; prevProps.viewport) {
+      <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+      <span class="hljs-comment">// artificial delay, for demo purposes</span>
+      setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+        self.updatePosition();
+      }, <span class="hljs-number">3000</span>);
+    }
+  },
+
+  updatePosition: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> el = <span class="hljs-keyword">this</span>.getDOMNode();
+    <span class="hljs-keyword">this</span>.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> img = (<span class="hljs-keyword">this</span>.props.showImage) ? <span class="hljs-keyword">this</span>.props.src : <span class="hljs-keyword">this</span>.props.loader;
+    <span class="hljs-keyword">return</span> (
+      React.DOM.img( {src:img, alt:<span class="hljs-keyword">this</span>.props.alt} )
+    );
+  }
+});
+
+<span class="hljs-comment">// Product list item</span>
+<span class="hljs-keyword">var</span> Product = React.createClass({displayName: <span class="hljs-string">'Product'</span>,
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      showImage: <span class="hljs-literal">false</span>
+    };
+  },
+
+  getDefaultProps: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      showImage: <span class="hljs-literal">false</span>
+    };
+  },
+
+  componentWillMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-comment">// allow image display override</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.props.showImage) {
+      setShowImage(<span class="hljs-literal">true</span>);
+    }
+  },
+
+  updateImagePosition: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(top, height)</span> {</span>
+    <span class="hljs-comment">// image is already displayed, no need to check anything</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.state.showImage) {
+      <span class="hljs-keyword">return</span>;
+    }
+
+    <span class="hljs-comment">// update showImage state if component element is in the viewport</span>
+    <span class="hljs-keyword">var</span> min = <span class="hljs-keyword">this</span>.props.viewport.top;
+    <span class="hljs-keyword">var</span> max = <span class="hljs-keyword">this</span>.props.viewport.top + <span class="hljs-keyword">this</span>.props.viewport.height;
+
+    <span class="hljs-keyword">if</span> ((min &lt;= (top + height) &amp;&amp; top &lt;= max)) {
+      <span class="hljs-keyword">this</span>.setShowImage(<span class="hljs-literal">true</span>);
+    }
+  },
+
+  setShowImage: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(show)</span> {</span>
+    <span class="hljs-keyword">this</span>.setState({
+      showImage: !!(show)
+    });
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> (
+      React.DOM.div(<span class="hljs-literal">null</span>,
+        React.DOM.h2(<span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>.props.title),
+        React.DOM.div(<span class="hljs-literal">null</span>,
+          ProductImage( {src:<span class="hljs-keyword">this</span>.props.image, alt:<span class="hljs-keyword">this</span>.props.title, viewport:<span class="hljs-keyword">this</span>.props.viewport, showImage:<span class="hljs-keyword">this</span>.state.showImage,
+            updateImagePosition:<span class="hljs-keyword">this</span>.updateImagePosition} )
+        )
+      )
+    );
+  }
+});
+
+<span class="hljs-comment">// Product list</span>
+<span class="hljs-keyword">var</span> ProductList = React.createClass({displayName: <span class="hljs-string">'ProductList'</span>,
+  getInitialState: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      viewport: {
+        top: <span class="hljs-number">0</span>,
+        height: <span class="hljs-number">0</span>
+      }
+    };
+  },
+
+  componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    window.onscroll = <span class="hljs-keyword">this</span>.updateViewport;
+    window.onresize = <span class="hljs-keyword">this</span>.updateViewport;
+    <span class="hljs-keyword">this</span>.updateViewport();
+  },
+
+  updateViewport: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-comment">// TODO: debounce this call</span>
+    <span class="hljs-keyword">this</span>.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+    <span class="hljs-keyword">var</span> itemViews = <span class="hljs-keyword">this</span>.props.items.map(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(item)</span> {</span>
+      <span class="hljs-keyword">return</span> Product( {title:item.title, image:item.image, viewport:self.state.viewport} )
+    });
+
+    <span class="hljs-keyword">return</span> (
+      React.DOM.div(<span class="hljs-literal">null</span>,
+        React.DOM.h1(<span class="hljs-literal">null</span>, <span class="hljs-string">"Items"</span>),
+        itemViews
+      )
+    );
+  }
+});
+
+<span class="hljs-keyword">var</span> items = [
+  { title: <span class="hljs-string">'Kitten 1'</span>, image: <span class="hljs-string">'http://placekitten.com/301/301'</span> },
+  { title: <span class="hljs-string">'Kitten 2'</span>, image: <span class="hljs-string">'http://placekitten.com/302/302'</span> },
+  { title: <span class="hljs-string">'Kitten 3'</span>, image: <span class="hljs-string">'http://placekitten.com/303/303'</span> },
+  { title: <span class="hljs-string">'Kitten 4'</span>, image: <span class="hljs-string">'http://placekitten.com/304/304'</span> },
+  { title: <span class="hljs-string">'Kitten 5'</span>, image: <span class="hljs-string">'http://placekitten.com/305/305'</span> },
+  { title: <span class="hljs-string">'Kitten 6'</span>, image: <span class="hljs-string">'http://placekitten.com/306/306'</span> },
+  { title: <span class="hljs-string">'Kitten 7'</span>, image: <span class="hljs-string">'http://placekitten.com/307/307'</span> },
+  { title: <span class="hljs-string">'Kitten 8'</span>, image: <span class="hljs-string">'http://placekitten.com/308/308'</span> },
+  { title: <span class="hljs-string">'Kitten 9'</span>, image: <span class="hljs-string">'http://placekitten.com/309/309'</span> },
+  { title: <span class="hljs-string">'Kitten 10'</span>, image: <span class="hljs-string">'http://placekitten.com/310/310'</span> }
+];
+
+<span class="hljs-keyword">var</span> el = document.querySelector(<span class="hljs-string">'#output'</span>);
+React.renderComponent(ProductList( {items:items} ), el);
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+// Product list item image
+var ProductImage = React.createClass({displayName: 'ProductImage',
+  getDefaultProps: function() {
+    return {
+      loader: '../img/loader.gif',
+      showImage: false
+    };
+  },
+
+  componentDidUpdate: function(prevProps) {
+    if (! this.props.showImages && prevProps.viewport) {
+      var self = this;
+
+      // artificial delay, for demo purposes
+      setTimeout(function() {
+        self.updatePosition();
+      }, 3000);
+    }
+  },
+
+  updatePosition: function() {
+    var el = this.getDOMNode();
+    this.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: function() {
+    var img = (this.props.showImage) ? this.props.src : this.props.loader;
+    return (
+      React.DOM.img( {src:img, alt:this.props.alt} )
+    );
+  }
+});
+
+// Product list item
+var Product = React.createClass({displayName: 'Product',
+  getInitialState: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  componentWillMount: function() {
+    // allow image display override
+    if (this.props.showImage) {
+      setShowImage(true);
+    }
+  },
+
+  updateImagePosition: function(top, height) {
+    // image is already displayed, no need to check anything
+    if (this.state.showImage) {
+      return;
+    }
+
+    // update showImage state if component element is in the viewport
+    var min = this.props.viewport.top;
+    var max = this.props.viewport.top + this.props.viewport.height;
+
+    if ((min <= (top + height) && top <= max)) {
+      this.setShowImage(true);
+    }
+  },
+
+  setShowImage: function(show) {
+    this.setState({
+      showImage: !!(show)
+    });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        React.DOM.h2(null, this.props.title),
+        React.DOM.div(null,
+          ProductImage( {src:this.props.image, alt:this.props.title, viewport:this.props.viewport, showImage:this.state.showImage,
+            updateImagePosition:this.updateImagePosition} )
+        )
+      )
+    );
+  }
+});
+
+// Product list
+var ProductList = React.createClass({displayName: 'ProductList',
+  getInitialState: function() {
+    return {
+      viewport: {
+        top: 0,
+        height: 0
+      }
+    };
+  },
+
+  componentDidMount: function() {
+    window.onscroll = this.updateViewport;
+    window.onresize = this.updateViewport;
+    this.updateViewport();
+  },
+
+  updateViewport: function() {
+    // TODO: debounce this call
+    this.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: function() {
+    var self = this;
+
+    var itemViews = this.props.items.map(function(item) {
+      return Product( {title:item.title, image:item.image, viewport:self.state.viewport} )
+    });
+
+    return (
+      React.DOM.div(null,
+        React.DOM.h1(null, "Items"),
+        itemViews
+      )
+    );
+  }
+});
+
+var items = [
+  { title: 'Kitten 1', image: 'http://placekitten.com/301/301' },
+  { title: 'Kitten 2', image: 'http://placekitten.com/302/302' },
+  { title: 'Kitten 3', image: 'http://placekitten.com/303/303' },
+  { title: 'Kitten 4', image: 'http://placekitten.com/304/304' },
+  { title: 'Kitten 5', image: 'http://placekitten.com/305/305' },
+  { title: 'Kitten 6', image: 'http://placekitten.com/306/306' },
+  { title: 'Kitten 7', image: 'http://placekitten.com/307/307' },
+  { title: 'Kitten 8', image: 'http://placekitten.com/308/308' },
+  { title: 'Kitten 9', image: 'http://placekitten.com/309/309' },
+  { title: 'Kitten 10', image: 'http://placekitten.com/310/310' }
+];
+
+var el = document.querySelector('#output');
+React.renderComponent(ProductList( {items:items} ), el);
+</script>
+</div>
+
+        <footer>
+            <ul class="nav nav-pills pull-right">
+                <li><a href="..">Home</a></li>
+            </ul>
+        </footer>
+
+        <script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script>
+    </body>
+</html>
