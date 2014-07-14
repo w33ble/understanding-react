@@ -199,7 +199,7 @@ React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new
         return (
           React.DOM.div(null,
             React.DOM.div(null, "Seconds Remaining: ", this.state.secondsRemaining),
-            React.DOM.div(null, React.DOM.img( {src:"/img/place-bid.jpg", alt:"Place Bid"} ))
+            React.DOM.div(null, React.DOM.img( {src:"../img/place-bid.jpg", alt:"Place Bid"} ))
           )
         );
       } else {
@@ -227,7 +227,7 @@ React.renderComponent(AuctionListing( {title:<span class="hljs-string">"Like new
     }
   });
 
-  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"/img/iphone5s.jpg", secondsRemaining: 10} ), document.querySelector('#output'));
+  React.renderComponent(AuctionListing( {title:"Like new iPhone 5S", description:"Complete, with the original box. You know you want it!", image:"../img/iphone5s.jpg", secondsRemaining: 10} ), document.querySelector('#output'));
 
   </script>
 </div>
