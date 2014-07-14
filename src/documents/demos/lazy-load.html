@@ -1,0 +1,464 @@
+---
+title: "Lazy Loading"
+description: "Example image lazy loading - Only load images when they are visible"
+order: 70
+---
+
+<div class="container">
+<h2>JSX</h2>
+<pre><code class="lang-javascript">
+/** @jsx React.DOM */
+
+// Product list item image
+var ProductImage = React.createClass({
+  getDefaultProps: function() {
+    return {
+      loader: '/img/loader.gif',
+      showImage: false
+    };
+  },
+
+  componentDidUpdate: function(prevProps) {
+    if (! this.props.showImages && prevProps.viewport) {
+      var self = this;
+
+      // artificial delay, for demo purposes
+      setTimeout(function() {
+        self.updatePosition();
+      }, 3000);
+    }
+  },
+
+  updatePosition: function() {
+    var el = this.getDOMNode();
+    this.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: function() {
+    var img = (this.props.showImage) ? this.props.src : this.props.loader;
+    return (
+      <img src={img} alt={this.props.alt} />
+    );
+  }
+});
+
+// Product list item
+var Product = React.createClass({
+  getInitialState: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  componentWillMount: function() {
+    // allow image display override
+    if (this.props.showImage) {
+      setShowImage(true);
+    }
+  },
+
+  updateImagePosition: function(top, height) {
+    // image is already displayed, no need to check anything
+    if (this.state.showImage) {
+      return;
+    }
+
+    // update showImage state if component element is in the viewport
+    var min = this.props.viewport.top;
+    var max = this.props.viewport.top + this.props.viewport.height;
+
+    if ((min <= (top + height) && top <= max)) {
+      this.setShowImage(true);
+    }
+  },
+
+  setShowImage: function(show) {
+    this.setState({
+      showImage: !!(show)
+    });
+  },
+
+  render: function() {
+    return (
+      <div>
+        <h2>{this.props.title}</h2>
+        <div>
+          <ProductImage src={this.props.image} alt={this.props.title} viewport={this.props.viewport} showImage={this.state.showImage}
+            updateImagePosition={this.updateImagePosition} />
+        </div>
+      </div>
+    );
+  }
+});
+
+// Product list
+var ProductList = React.createClass({
+  getInitialState: function() {
+    return {
+      viewport: {
+        top: 0,
+        height: 0
+      }
+    };
+  },
+
+  componentDidMount: function() {
+    window.onscroll = this.updateViewport;
+    window.onresize = this.updateViewport;
+    this.updateViewport();
+  },
+
+  updateViewport: function() {
+    // TODO: debounce this call
+    this.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: function() {
+    var self = this;
+
+    var itemViews = this.props.items.map(function(item) {
+      return <Product title={item.title} image={item.image} viewport={self.state.viewport} />
+    });
+
+    return (
+      <div>
+        <h1>Items</h1>
+        {itemViews}
+      </div>
+    );
+  }
+});
+
+var items = [
+  { title: 'Kitten 1', image: 'http://placekitten.com/301/301' },
+  { title: 'Kitten 2', image: 'http://placekitten.com/302/302' },
+  { title: 'Kitten 3', image: 'http://placekitten.com/303/303' },
+  { title: 'Kitten 4', image: 'http://placekitten.com/304/304' },
+  { title: 'Kitten 5', image: 'http://placekitten.com/305/305' },
+  { title: 'Kitten 6', image: 'http://placekitten.com/306/306' },
+  { title: 'Kitten 7', image: 'http://placekitten.com/307/307' },
+  { title: 'Kitten 8', image: 'http://placekitten.com/308/308' },
+  { title: 'Kitten 9', image: 'http://placekitten.com/309/309' },
+  { title: 'Kitten 10', image: 'http://placekitten.com/310/310' }
+];
+
+var el = document.querySelector('#output');
+React.renderComponent(<ProductList items={items} />, el);
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Javascript</h2>
+<pre><code class="lang-javascript">
+// Product list item image
+var ProductImage = React.createClass({displayName: 'ProductImage',
+  getDefaultProps: function() {
+    return {
+      loader: '/img/loader.gif',
+      showImage: false
+    };
+  },
+
+  componentDidUpdate: function(prevProps) {
+    if (! this.props.showImages && prevProps.viewport) {
+      var self = this;
+
+      // artificial delay, for demo purposes
+      setTimeout(function() {
+        self.updatePosition();
+      }, 3000);
+    }
+  },
+
+  updatePosition: function() {
+    var el = this.getDOMNode();
+    this.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: function() {
+    var img = (this.props.showImage) ? this.props.src : this.props.loader;
+    return (
+      React.DOM.img( {src:img, alt:this.props.alt} )
+    );
+  }
+});
+
+// Product list item
+var Product = React.createClass({displayName: 'Product',
+  getInitialState: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  componentWillMount: function() {
+    // allow image display override
+    if (this.props.showImage) {
+      setShowImage(true);
+    }
+  },
+
+  updateImagePosition: function(top, height) {
+    // image is already displayed, no need to check anything
+    if (this.state.showImage) {
+      return;
+    }
+
+    // update showImage state if component element is in the viewport
+    var min = this.props.viewport.top;
+    var max = this.props.viewport.top + this.props.viewport.height;
+
+    if ((min <= (top + height) && top <= max)) {
+      this.setShowImage(true);
+    }
+  },
+
+  setShowImage: function(show) {
+    this.setState({
+      showImage: !!(show)
+    });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        React.DOM.h2(null, this.props.title),
+        React.DOM.div(null,
+          ProductImage( {src:this.props.image, alt:this.props.title, viewport:this.props.viewport, showImage:this.state.showImage,
+            updateImagePosition:this.updateImagePosition} )
+        )
+      )
+    );
+  }
+});
+
+// Product list
+var ProductList = React.createClass({displayName: 'ProductList',
+  getInitialState: function() {
+    return {
+      viewport: {
+        top: 0,
+        height: 0
+      }
+    };
+  },
+
+  componentDidMount: function() {
+    window.onscroll = this.updateViewport;
+    window.onresize = this.updateViewport;
+    this.updateViewport();
+  },
+
+  updateViewport: function() {
+    // TODO: debounce this call
+    this.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: function() {
+    var self = this;
+
+    var itemViews = this.props.items.map(function(item) {
+      return Product( {title:item.title, image:item.image, viewport:self.state.viewport} )
+    });
+
+    return (
+      React.DOM.div(null,
+        React.DOM.h1(null, "Items"),
+        itemViews
+      )
+    );
+  }
+});
+
+var items = [
+  { title: 'Kitten 1', image: 'http://placekitten.com/301/301' },
+  { title: 'Kitten 2', image: 'http://placekitten.com/302/302' },
+  { title: 'Kitten 3', image: 'http://placekitten.com/303/303' },
+  { title: 'Kitten 4', image: 'http://placekitten.com/304/304' },
+  { title: 'Kitten 5', image: 'http://placekitten.com/305/305' },
+  { title: 'Kitten 6', image: 'http://placekitten.com/306/306' },
+  { title: 'Kitten 7', image: 'http://placekitten.com/307/307' },
+  { title: 'Kitten 8', image: 'http://placekitten.com/308/308' },
+  { title: 'Kitten 9', image: 'http://placekitten.com/309/309' },
+  { title: 'Kitten 10', image: 'http://placekitten.com/310/310' }
+];
+
+var el = document.querySelector('#output');
+React.renderComponent(ProductList( {items:items} ), el);
+</code></pre>
+</div>
+
+<div class="container">
+<h2>Output</h2>
+<div id="output"></div>
+<script>
+// Product list item image
+var ProductImage = React.createClass({displayName: 'ProductImage',
+  getDefaultProps: function() {
+    return {
+      loader: '/img/loader.gif',
+      showImage: false
+    };
+  },
+
+  componentDidUpdate: function(prevProps) {
+    if (! this.props.showImages && prevProps.viewport) {
+      var self = this;
+
+      // artificial delay, for demo purposes
+      setTimeout(function() {
+        self.updatePosition();
+      }, 3000);
+    }
+  },
+
+  updatePosition: function() {
+    var el = this.getDOMNode();
+    this.props.updateImagePosition(el.offsetTop, el.offsetHeight);
+  },
+
+  render: function() {
+    var img = (this.props.showImage) ? this.props.src : this.props.loader;
+    return (
+      React.DOM.img( {src:img, alt:this.props.alt} )
+    );
+  }
+});
+
+// Product list item
+var Product = React.createClass({displayName: 'Product',
+  getInitialState: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  getDefaultProps: function() {
+    return {
+      showImage: false
+    };
+  },
+
+  componentWillMount: function() {
+    // allow image display override
+    if (this.props.showImage) {
+      setShowImage(true);
+    }
+  },
+
+  updateImagePosition: function(top, height) {
+    // image is already displayed, no need to check anything
+    if (this.state.showImage) {
+      return;
+    }
+
+    // update showImage state if component element is in the viewport
+    var min = this.props.viewport.top;
+    var max = this.props.viewport.top + this.props.viewport.height;
+
+    if ((min <= (top + height) && top <= max)) {
+      this.setShowImage(true);
+    }
+  },
+
+  setShowImage: function(show) {
+    this.setState({
+      showImage: !!(show)
+    });
+  },
+
+  render: function() {
+    return (
+      React.DOM.div(null,
+        React.DOM.h2(null, this.props.title),
+        React.DOM.div(null,
+          ProductImage( {src:this.props.image, alt:this.props.title, viewport:this.props.viewport, showImage:this.state.showImage,
+            updateImagePosition:this.updateImagePosition} )
+        )
+      )
+    );
+  }
+});
+
+// Product list
+var ProductList = React.createClass({displayName: 'ProductList',
+  getInitialState: function() {
+    return {
+      viewport: {
+        top: 0,
+        height: 0
+      }
+    };
+  },
+
+  componentDidMount: function() {
+    window.onscroll = this.updateViewport;
+    window.onresize = this.updateViewport;
+    this.updateViewport();
+  },
+
+  updateViewport: function() {
+    // TODO: debounce this call
+    this.setState({
+      viewport: {
+        top: window.pageYOffset,
+        height: window.innerHeight
+      }
+    });
+  },
+
+  render: function() {
+    var self = this;
+
+    var itemViews = this.props.items.map(function(item) {
+      return Product( {title:item.title, image:item.image, viewport:self.state.viewport} )
+    });
+
+    return (
+      React.DOM.div(null,
+        React.DOM.h1(null, "Items"),
+        itemViews
+      )
+    );
+  }
+});
+
+var items = [
+  { title: 'Kitten 1', image: 'http://placekitten.com/301/301' },
+  { title: 'Kitten 2', image: 'http://placekitten.com/302/302' },
+  { title: 'Kitten 3', image: 'http://placekitten.com/303/303' },
+  { title: 'Kitten 4', image: 'http://placekitten.com/304/304' },
+  { title: 'Kitten 5', image: 'http://placekitten.com/305/305' },
+  { title: 'Kitten 6', image: 'http://placekitten.com/306/306' },
+  { title: 'Kitten 7', image: 'http://placekitten.com/307/307' },
+  { title: 'Kitten 8', image: 'http://placekitten.com/308/308' },
+  { title: 'Kitten 9', image: 'http://placekitten.com/309/309' },
+  { title: 'Kitten 10', image: 'http://placekitten.com/310/310' }
+];
+
+var el = document.querySelector('#output');
+React.renderComponent(ProductList( {items:items} ), el);
+</script>
+</div>
