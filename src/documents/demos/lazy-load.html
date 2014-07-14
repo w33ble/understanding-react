@@ -109,9 +109,14 @@ var ProductList = React.createClass({
   },
 
   componentDidMount: function() {
-    window.onscroll = this.updateViewport;
-    window.onresize = this.updateViewport;
+    window.addEventListener('scroll', this.updateViewport, false);
+    window.addEventListener('resize', this.updateViewport, false);
     this.updateViewport();
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('scroll', this.updateViewport);
+    window.removeEventListener('resize', this.updateViewport);
   },
 
   updateViewport: function() {
@@ -261,9 +266,14 @@ var ProductList = React.createClass({displayName: 'ProductList',
   },
 
   componentDidMount: function() {
-    window.onscroll = this.updateViewport;
-    window.onresize = this.updateViewport;
+    window.addEventListener('scroll', this.updateViewport, false);
+    window.addEventListener('resize', this.updateViewport, false);
     this.updateViewport();
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('scroll', this.updateViewport);
+    window.removeEventListener('resize', this.updateViewport);
   },
 
   updateViewport: function() {
@@ -414,9 +424,14 @@ var ProductList = React.createClass({displayName: 'ProductList',
   },
 
   componentDidMount: function() {
-    window.onscroll = this.updateViewport;
-    window.onresize = this.updateViewport;
+    window.addEventListener('scroll', this.updateViewport, false);
+    window.addEventListener('resize', this.updateViewport, false);
     this.updateViewport();
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('scroll', this.updateViewport);
+    window.removeEventListener('resize', this.updateViewport);
   },
 
   updateViewport: function() {
