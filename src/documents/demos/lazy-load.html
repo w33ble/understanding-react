@@ -20,12 +20,7 @@ var ProductImage = React.createClass({
 
   componentDidUpdate: function(prevProps) {
     if (! this.props.showImages && prevProps.viewport) {
-      var self = this;
-
-      // artificial delay, for demo purposes
-      setTimeout(function() {
-        self.updatePosition();
-      }, 3000);
+      this.updatePosition();
     }
   },
 
@@ -73,7 +68,7 @@ var Product = React.createClass({
     var min = this.props.viewport.top;
     var max = this.props.viewport.top + this.props.viewport.height;
 
-    if ((min <= (top + height) && top <= max)) {
+    if ((min <= (top + height) && top <= (max - 300))) {
       this.setShowImage(true);
     }
   },
@@ -170,19 +165,14 @@ React.renderComponent(<ProductList items={items} />, el);
 var ProductImage = React.createClass({displayName: 'ProductImage',
   getDefaultProps: function() {
     return {
-      loader: '/img/loader.gif',
+      loader: '../img/loader.gif',
       showImage: false
     };
   },
 
   componentDidUpdate: function(prevProps) {
     if (! this.props.showImages && prevProps.viewport) {
-      var self = this;
-
-      // artificial delay, for demo purposes
-      setTimeout(function() {
-        self.updatePosition();
-      }, 3000);
+      this.updatePosition();
     }
   },
 
@@ -230,7 +220,7 @@ var Product = React.createClass({displayName: 'Product',
     var min = this.props.viewport.top;
     var max = this.props.viewport.top + this.props.viewport.height;
 
-    if ((min <= (top + height) && top <= max)) {
+    if ((min <= (top + height) && top <= (max - 300))) {
       this.setShowImage(true);
     }
   },
@@ -328,19 +318,14 @@ React.renderComponent(ProductList( {items:items} ), el);
 var ProductImage = React.createClass({displayName: 'ProductImage',
   getDefaultProps: function() {
     return {
-      loader: '/img/loader.gif',
+      loader: '../img/loader.gif',
       showImage: false
     };
   },
 
   componentDidUpdate: function(prevProps) {
     if (! this.props.showImages && prevProps.viewport) {
-      var self = this;
-
-      // artificial delay, for demo purposes
-      setTimeout(function() {
-        self.updatePosition();
-      }, 3000);
+      this.updatePosition();
     }
   },
 
@@ -388,7 +373,7 @@ var Product = React.createClass({displayName: 'Product',
     var min = this.props.viewport.top;
     var max = this.props.viewport.top + this.props.viewport.height;
 
-    if ((min <= (top + height) && top <= max)) {
+    if ((min <= (top + height) + 200 && top <= (max - 300))) {
       this.setShowImage(true);
     }
   },
