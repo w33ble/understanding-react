@@ -143,9 +143,14 @@ var ProductList = React.createClass({
   },
 
   componentDidMount: function() {
-    window.onscroll = this.updateViewport;
-    window.onresize = this.updateViewport;
+    window.addEventListener('scroll', this.updateViewport, false);
+    window.addEventListener('resize', this.updateViewport, false);
     this.updateViewport();
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('scroll', this.updateViewport);
+    window.removeEventListener('resize', this.updateViewport);
   },
 
   updateViewport: function() {
@@ -295,9 +300,14 @@ React.renderComponent(<span class="hljs-tag">&lt;<span class="hljs-title">Produc
   },
 
   componentDidMount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    window.onscroll = <span class="hljs-keyword">this</span>.updateViewport;
-    window.onresize = <span class="hljs-keyword">this</span>.updateViewport;
+    window.addEventListener(<span class="hljs-string">'scroll'</span>, <span class="hljs-keyword">this</span>.updateViewport, <span class="hljs-literal">false</span>);
+    window.addEventListener(<span class="hljs-string">'resize'</span>, <span class="hljs-keyword">this</span>.updateViewport, <span class="hljs-literal">false</span>);
     <span class="hljs-keyword">this</span>.updateViewport();
+  },
+
+  componentWillUnmount: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    window.removeEventListener(<span class="hljs-string">'scroll'</span>, <span class="hljs-keyword">this</span>.updateViewport);
+    window.removeEventListener(<span class="hljs-string">'resize'</span>, <span class="hljs-keyword">this</span>.updateViewport);
   },
 
   updateViewport: <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
@@ -448,9 +458,14 @@ var ProductList = React.createClass({displayName: 'ProductList',
   },
 
   componentDidMount: function() {
-    window.onscroll = this.updateViewport;
-    window.onresize = this.updateViewport;
+    window.addEventListener('scroll', this.updateViewport, false);
+    window.addEventListener('resize', this.updateViewport, false);
     this.updateViewport();
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('scroll', this.updateViewport);
+    window.removeEventListener('resize', this.updateViewport);
   },
 
   updateViewport: function() {
